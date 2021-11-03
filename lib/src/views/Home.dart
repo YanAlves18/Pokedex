@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/src/blocs/GetPokemons/GetPokemonsBloc.dart';
+import 'package:pokedex/src/models/Pokemon.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,72 +24,99 @@ class _HomeState extends State<Home> {
         ),
         backgroundColor: Colors.redAccent,
       ),
-      body: ListView(
-        children: [
-          Card(
-            elevation: 0,
-            color: Colors.white,
-            child: Container(
-              padding: EdgeInsets.only(left: 20, top: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 3),
-                    child: CachedNetworkImage(
-                      imageUrl: "https://picsum.photos/250?image=9",
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Container(
-                        alignment: Alignment.center,
-                        child: Container(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator()),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/image.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+      body: BlocBuilder<GetPokemonsBloc, GetPokemonsState>(
+        builder: (context, state) {
+          if (state is LoadingGetPokemonsState) {
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+              ),
+            );
+          } else if (state is ErrorGetPokemonsState) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(state.message,
+                    style: TextStyle(
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 16)),
+              ),
+            );
+          } else if (state is SuccessGetPokemonsState) {
+            return ListView.builder(
+                itemCount: state.pokemons.length,
+                itemBuilder: (context, index) {
+                  return itemList(state.pokemons[index]);
+                });
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget itemList(Poke pokemon) {
+    return Card(
+      elevation: 0,
+      color: Colors.grey[50],
+      child: Container(
+        height: 60,
+        padding: EdgeInsets.only(left: 20, top: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 3),
+              child: CachedNetworkImage(
+                imageUrl: pokemon.image!,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(left: 20, top: 5),
-                          child: Text("Nome",
-                              style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black)),
-                        ),
-                      ],
+                ),
+                placeholder: (context, url) => Container(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.redAccent),
                     ),
-                  )
-                ],
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/image.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+            Container(
+              padding: const EdgeInsets.only(left: 20, top: 10),
+              child: Text(pokemon.name!.toUpperCase(),
+                  style: TextStyle(
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black)),
+            ),
+          ],
+        ),
       ),
     );
   }

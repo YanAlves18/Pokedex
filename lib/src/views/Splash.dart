@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/src/blocs/GetPokemons/GetPokemonsBloc.dart';
 
 import 'Home.dart';
 
@@ -12,12 +14,16 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  late GetPokemonsBloc _pokemonsBloc;
   @override
   void initState() {
     super.initState();
 
+    _pokemonsBloc = BlocProvider.of<GetPokemonsBloc>(context);
+    _pokemonsBloc.add(GetPokemons());
+
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 5),
         () => Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (BuildContext context) => Home())));
   }
@@ -41,17 +47,6 @@ class _SplashState extends State<Splash> {
                 fit: BoxFit.contain,
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 5),
-              child: Text(
-                "Pokedex",
-                style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24,
-                    color: Colors.black),
-              ),
-            )
           ],
         ),
       ),
