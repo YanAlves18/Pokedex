@@ -1,16 +1,31 @@
-# pokedex
+# Pokedex
 
-A new Flutter project.
 
-## Getting Started
+## Descrição
 
-This project is a starting point for a Flutter application.
+Este projeto é um aplicativo desenvolvido em Flutter, com a finalidade de listar pokémons, utilizando a Api pokeapi v2.
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologias utilizadas
+- Flutter
+- Dart
+- Pokeapi.co
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Instruções para executá-lo
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Para executar o projeto é necessário ter flutter e dart instalado no computador.
+- Obter o projeto, clonando o repositório com o comando: 
+ `git clone https://github.com/YanAlves18/Pokedex.git`
+- Depois disso, obter os pacotes usando o comando:
+ `flutter pub get`
+- Conectar a um celular ou emulador.
+- E por fim, executar o projeto usando o comando:
+ `flutter run`
+ 
+ Após executar o aplicativo, será listado os nomes e as imagens de 50 pokémons como a seguinte foto: 
+
+### Captura de tela
+![image](https://user-images.githubusercontent.com/54040595/140182649-a88e1b0f-97bf-4f7d-a204-06fb3ac8aa17.png)
+
+
+#### Autoria
+Yan Pablo Alves
