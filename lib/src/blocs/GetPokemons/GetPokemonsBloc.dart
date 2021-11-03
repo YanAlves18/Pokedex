@@ -19,7 +19,7 @@ class GetPokemonsBloc extends Bloc<GetPokemonsEvent, GetPokemonsState> {
       if (event is GetPokemonsEvent) {
         yield LoadingGetPokemonsState();
         
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 50; i++) {
           var response = await ApiPokemons.getPokemon(i);
           Poke pokemon = Poke.fromJson(response);
           pokemons.add(pokemon);

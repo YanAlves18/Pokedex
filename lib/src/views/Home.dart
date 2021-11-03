@@ -22,14 +22,14 @@ class _HomeState extends State<Home> {
           style:
               TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400),
         ),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Color(0xffCB1D0E),
       ),
       body: BlocBuilder<GetPokemonsBloc, GetPokemonsState>(
         builder: (context, state) {
           if (state is LoadingGetPokemonsState) {
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xffCB1D0E)),
               ),
             );
           } else if (state is ErrorGetPokemonsState) {
@@ -59,65 +59,74 @@ class _HomeState extends State<Home> {
   }
 
   Widget itemList(Poke pokemon) {
-    return Card(
-      elevation: 0,
-      color: Colors.grey[50],
-      child: Container(
+    return Container(
         height: 60,
-        padding: EdgeInsets.only(left: 20, top: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 3),
-              child: CachedNetworkImage(
-                imageUrl: pokemon.image!,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
+        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 2,
+                blurRadius: 4,
+                offset: Offset(0, 3))
+          ],
+        ),
+        child: Container(
+          padding: EdgeInsets.only(left: 20, top: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 3),
+                child: CachedNetworkImage(
+                  imageUrl: pokemon.image!,
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                placeholder: (context, url) => Container(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                  placeholder: (context, url) => Container(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Color(0xffCB1D0E)),
+                      ),
                     ),
                   ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/image.png'),
-                      fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/image.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 20, top: 10),
-              child: Text(pokemon.name!.toUpperCase(),
-                  style: TextStyle(
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black)),
-            ),
-          ],
-        ),
-      ),
-    );
+              Container(
+                padding: const EdgeInsets.only(left: 20, top: 10),
+                child: Text(pokemon.name!.toUpperCase(),
+                    style: TextStyle(
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+              ),
+            ],
+          ),
+        ));
   }
 }
